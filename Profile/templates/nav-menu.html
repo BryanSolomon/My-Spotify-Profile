@@ -1,0 +1,213 @@
+{% load static %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        color: white;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: white;
+    }
+
+    .navbar {
+        background-color: black;
+        padding: 10px 1vw;
+        margin-bottom: 4vh;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: -webkit-sticky;
+	    position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        list-style: none;
+    }
+
+    .nav-links li {
+        display: inline-block;
+        margin-right: 2vw;
+        /* filter: brightness(75%); */
+    }
+
+    .nav-links li a {
+        filter: brightness(75%);
+        transition-duration: .4s;
+    }
+    .nav-links li a:hover {
+        filter: brightness(100%);
+    }
+
+    .logout {
+            text-decoration: none;
+            font-weight: 600;
+            /* font-size: small; */
+            background-color: #191414;
+            color: white;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition-duration: .4s;
+    }
+    .logout:hover {
+        background-color: white;
+        color: #191414;
+        cursor: pointer;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px 0;
+        margin-right: 4vw;
+        background-color: white;
+    }
+
+    .icons {
+        -webkit-filter: invert(100%);
+    }
+
+    .mobile-nav {
+        display: none;
+    }
+
+    @media only screen and (max-width: 500px) {
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            top: unset;
+            width: 100%;
+            margin: 0;
+        }
+
+        .mobile-nav {
+            display: grid;
+            grid-template-columns: [a] auto [b] auto [c] auto [d] auto [e] auto ;
+            width: 100%;
+            place-items: stretch;
+        }
+
+        .mobile-nav a {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            font-size: x-small;
+            align-items: center;
+        }
+
+        .logo {
+            display: unset;
+            display: none;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .logo {
+            display: none;
+        }
+
+        .logo-letter {
+            display: none;
+        }    
+
+        a.active {
+            text-decoration: underline;
+        }
+        
+    }
+
+    @media only screen and (max-width: 800px) and (min-width: 500px) {
+
+        /* .navbar {
+            position: fixed;
+            bottom: 0;
+            top: unset;
+            width: 100%;
+            margin: 0;
+            justify-content: space-evenly;
+        }
+
+        .nav-links {
+            font-size: small;
+            font-weight: 500;
+            justify-content: space-evenly;
+            margin-right: 2vw;
+        } */
+
+    }
+
+</style>
+
+<div class="navbar">
+    <div class="mobile-nav">
+        <a href="/">
+            <img class="icons" src="{% static '/Profile/nav-icons/user.png' %}" alt="" height="40px" width="40px">
+            User
+        </a>
+        <a href="/top-tracks/">
+            <img class="icons" src="{% static '/Profile/nav-icons/headphones-with-music-note.png' %}" alt="" height="40px" width="40px">
+            Top Tracks
+        </a>
+        <a href="/top-artists/">
+            <img class="icons" src="{% static '/Profile/nav-icons/cord-microphone.png' %}" alt="" height="40px" width="40px">
+            Top Artists
+        </a>
+        <a href="/recently-played/">
+            <img class="icons" src="{% static '/Profile/nav-icons/past.png' %}" alt="" height="40px" width="40px">
+            Recently Played
+        </a>
+        <a href="/playlists/">
+            <img class="icons" src="{% static '/Profile/nav-icons/musical-disc-and-dj-hand.png' %}" alt="" height="40px" width="40px">
+            Playlists
+        </a>
+    </div>
+
+    <a href="/" style="display: flex; flex-wrap: nowrap; align-items: center;">
+        <img class="logo" src="{% static '/Profile/Spotify_Icon_RGB_Green.png' %}" alt="" height="50px" width="50px">
+        <span class="logo-letter" style="margin-left: 1vw; font-weight: 700;">My Spotify Profile</span>
+    </a>
+
+    <div>
+        <ul class="nav-links">
+            <li><a href="/top-tracks/">
+                <span class="nav-text">Top Tracks</span>
+            </a></li>
+            <li><a href="/top-artists/">
+                <span class="nav-text">Top Artists</span>
+            </a></li>
+            <li><a href="/recently-played/">
+                <span class="nav-text">Recently Played</span>
+            </a></li>
+            <li><a href="/playlists/">
+                <span class="nav-text">Playlists</span>
+            </a></li>
+            <form action="" method="POST"> {% csrf_token %}
+                <input type="submit" name="logout" value="Log Out" class="logout" formmethod="POST">
+            </form>
+        </ul>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    var change = function () {
+    var url = window.location.pathname;        
+    console.log($('a[href="' + url + '"]').html())
+    $('a[href="' + url + '"]').addClass('active');        
+};
+change();
+</script>
+
+{% block content %}
+
+{% endblock %}

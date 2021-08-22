@@ -1,0 +1,123 @@
+{% extends 'nav-menu.html' %}
+{% load static %}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Profile | Playlists</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #191414;
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        a:visited {
+            color: white;
+        }
+
+        .playlists {
+            display: grid;
+            grid-template-columns: [first] auto [second] auto [third] auto [fourth] auto [fifth] auto;
+            justify-items: center;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .playlist {
+            text-align: center;
+            margin: 3vh;
+        }
+
+        .cover {
+            height: 200px;
+            width: 200px;
+            transition-duration: .4s;
+        }
+        .cover:hover {
+            filter: brightness(125%);
+        }
+
+        @media only screen and (max-width: 500px) {
+            .playlists {
+                display: flex;
+                flex-direction: column;
+                padding-left: 4vw;
+            }
+
+            .playlist {
+                max-width: unset;
+                width: 100%;
+                text-align: left;
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                margin: 2vh;
+            }
+
+            .text {
+                margin-left: 4vw;
+            }
+
+            .cover {
+                height: 100px;
+                width: 100px;
+            }
+
+            .title {
+                margin-top: 2vh;
+            }
+        }
+
+        @media only screen and (max-width: 800px) and (min-width: 500px) {
+            .playlists {
+                display: grid;
+                grid-template-columns: [first] auto [second] auto [third] auto;
+                justify-items: center;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+            }
+
+            .cover {
+                height: 175px;
+                width: 175px;
+            }
+
+            .title {
+                margin-top: 2vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1 class="title" style="text-align: center;">Playlists</h1>
+    <div class="playlists">
+        {%for item in playlists%}
+        <div class="playlist">
+            {% if item.image is not None %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src={{item.image}} alt='' class="cover"></a>
+            {% else %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src="{% static 'Profile/no_cover.PNG' %}" alt="" class="cover"></a>
+            {% endif %}
+            <div class="text">
+                <a href={{item.url}} target="_blank" rel="noopener noreferrer">{{item.name}}</a>
+                <div style="font-size: small; filter: brightness(75%);">{{item.owner}}</div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</body>
+{%endblock%}
+</html>

@@ -1,0 +1,229 @@
+{% extends 'nav-menu.html' %}
+{% load static %}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Profile | Top Artists</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #191414;
+            color: white;
+        }
+
+        .title {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 1vw;
+        }
+
+        .buttons button{
+            background-color: #191414;
+            color: white;
+            border-color: #191414;
+            font-weight: 500;
+            font-size: large;
+            transition-duration: .4s;
+        }
+        .buttons button:hover {
+            cursor: pointer;
+        }
+
+        .artists {
+            /* display: flex;
+            flex-flow: row wrap;
+            justify-content: start;
+            align-items: flex-start; */
+
+            display: grid;
+            grid-template-columns: [first] auto [second] auto [third] auto [fourth] auto [fifth] auto;
+            justify-items: center;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .artist {
+            padding: 5vh;
+            width: 175px;
+            max-width: 175px;
+        }
+
+        .image {
+            height: 175px;
+            width: 175px;
+            border-radius: 50%;
+            transition-duration: .4s;
+        }
+        .image:hover {
+            filter: brightness(125%);
+        }
+
+        @media only screen and (max-width: 500px) {
+            .title {
+                flex-direction: column;
+                margin-top: 2vh;
+            }
+
+            .buttons button {
+                font-size: medium;
+            }
+
+            .artists {
+                display: grid;
+                grid-template-columns: [first] auto [second] auto;
+                justify-items: center;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+            }
+
+            .artist {
+                padding: 3vh 0px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .image {
+                height: 150px;
+                width: 150px;
+            }
+        }
+
+        @media only screen and (max-width: 800px) and (min-width: 500px) {
+            .artists {
+                display: grid;
+                grid-template-columns: [first] auto [second] auto [third] auto;
+                justify-items: center;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+            }
+
+            .title {
+                margin-top: 2vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1 style="font-weight: 900;">Top Artists</h1>
+        <div class="buttons">
+            <button id="long">All Time</button>
+            <button id="medium">Last 6 Months</button>
+            <button id="short">Last 4 Weeks</button>
+        </div>
+    </div>
+
+    <div class="artists" id="long-term">
+        {%for item in long_term%}
+        <div class="artist">
+            {% if item.image is not None %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src={{item.image}} alt='' class="image"></a>
+            {% else %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src="{% static 'Profile/pfp.png' %}" alt="" class="image"></a>
+            {% endif %}
+            <div style="text-align: center; margin-top: 1vh;">{{item.name}}</div>
+        </div>
+        {%endfor%}
+    </div>
+
+    <div class="artists" id="medium-term">
+        {%for item in medium_term%}
+        <div class="artist">
+            {% if item.image is not None %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src={{item.image}} alt='' class="image"></a>
+            {% else %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src="{% static 'Profile/pfp.png' %}" alt="" class="image"></a>
+            {% endif %}
+            <div style="text-align: center; margin-top: 1vh;">{{item.name}}</div>
+        </div>
+        {%endfor%}
+    </div>
+
+    <div class="artists" id="short-term">
+        {%for item in short_term%}
+        <div class="artist">
+            {% if item.image is not None %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src={{item.image}} alt='' class="image"></a>
+            {% else %}
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer"><img src="{% static 'Profile/pfp.png' %}" alt="" class="image"></a>
+            {% endif %}
+            <div style="text-align: center; margin-top: 1vh;">{{item.name}}</div>
+        </div>
+        {%endfor%}
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    window.onload = () => {
+        $("#long").css("text-decoration", "underline")
+        $("#medium").css("text-decoration", "none")
+        $("#short").css("text-decoration", "none")
+
+        $("#long").css("filter", "brightness(100%)")
+        $("#medium").css("filter", "brightness(75%)")
+        $("#short").css("filter", "brightness(75%)")
+
+        $("#long-term").show()
+        $("#medium-term").hide()
+        $("#short-term").hide()
+    }
+
+    $('#long').click(() => {
+        $("#long").css("text-decoration", "underline")
+        $("#medium").css("text-decoration", "none")
+        $("#short").css("text-decoration", "none")
+
+        $("#long").css("filter", "brightness(100%)")
+        $("#medium").css("filter", "brightness(75%)")
+        $("#short").css("filter", "brightness(75%)")
+
+        $("#long-term").show()
+        $("#medium-term").hide()
+        $("#short-term").hide()
+    })
+
+    $('#medium').click(() => {
+        $("#long").css("text-decoration", "none")
+        $("#medium").css("text-decoration", "underline")
+        $("#short").css("text-decoration", "none")
+
+        $("#long").css("filter", "brightness(75%)")
+        $("#medium").css("filter", "brightness(100%)")
+        $("#short").css("filter", "brightness(75%)")
+
+        $("#long-term").hide()
+        $("#medium-term").show()
+        $("#short-term").hide()
+    })
+
+    $('#short').click(() => {
+        $("#long").css("text-decoration", "none")
+        $("#medium").css("text-decoration", "none")
+        $("#short").css("text-decoration", "underline")
+
+        $("#long").css("filter", "brightness(75%)")
+        $("#medium").css("filter", "brightness(75%)")
+        $("#short").css("filter", "brightness(100%)")
+
+        $("#long-term").hide()
+        $("#medium-term").hide()
+        $("#short-term").show()
+    })
+</script>
+{%endblock%}
+</html>

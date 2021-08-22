@@ -1,0 +1,317 @@
+{% extends 'nav-menu.html' %}
+{% load static %}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #191414;
+            color: white;
+            /* overflow: hidden; */
+        }
+        .main {
+            position: absolute;
+            overflow-y: scroll;
+        }
+
+        a:visited {
+            color: white;
+        }
+
+        .link {
+            transition-duration: .4s;
+        }
+
+        .link:hover {
+            filter: brightness(125%);
+        }
+
+        .display-pic {
+            border-radius: 50%;
+            width: 240px;
+            height: 240px;
+            margin-bottom: 3vh;
+        }
+
+        .display-prof {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .display-name {
+            color: white;
+            transition-duration: .8s;
+        }
+        .display-name:hover {
+            color: #1db954;
+        }
+
+        .follow-stats {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            margin-top: 3vh;
+        }
+
+        .f-stats {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+            margin: 0 3vw;
+        }
+
+        .top {
+            margin-top: 8vh;
+            display: grid;
+            grid-template-columns: [a] auto [b] auto;
+            margin-left: 4vw;
+            margin-right: 4vw;
+        }
+
+        .track {
+            display: flex;
+            align-items: center;
+            margin: 4vh 0;
+        }
+
+        .artist {
+            display: flex;
+            align-items: center;
+        }
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .see-more {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: small;
+            background-color: #191414;
+            color: white;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition-duration: .4s;
+        }
+        .see-more:hover {
+            background-color: white;
+            color: #191414;
+        }
+
+        .rankings {
+            margin-left: 2vw;
+            margin-right: 2vw;
+        }
+
+        .logout-mobile {
+            display: none;
+            text-decoration: none;
+            font-weight: 600;
+            /* font-size: small; */
+            background-color: #1db954;
+            color: white;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition-duration: .4s;
+            margin-bottom: 2vh;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: [one] auto [two] auto;
+            justify-content: space-evenly;
+        }
+
+        .genre-graph {
+            height: 400px;
+            width: 400px;
+        }
+
+        .icon-src {
+            text-align: center;
+            font-size: xx-small;
+            display: none;
+            margin-top: 1vh;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .top {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                margin: 7vh 4vw;
+            }
+            .rankings {
+                width: unset;
+            }
+
+            .profile-stats {
+                margin-top: 2vh;
+                grid-template-columns: [a] auto;
+                justify-items: center;
+            }
+
+            .genre-graph {
+                margin-top: 2vh;
+                width: 300;
+                height: 300px;
+            }
+
+            .logout-mobile {
+                display: block;
+            }
+
+            .icon-src {
+                display: block;
+            }
+        }
+
+        @media only screen and (max-width: 800px) and (min-width: 500px) {
+            .genre-graph {
+                width: 350px;
+                height: 350px;
+            }
+
+            .profile-stats {
+                margin-top: 4vh;
+            }
+
+            .icon-src {
+                display: block;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="icon-src">Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    <div class="profile-stats">
+        <div class="display-prof">
+            <form action="" method="POST"> {% csrf_token %}
+                <input type="submit" name="logout" value="Log Out" class="logout-mobile" formmethod="POST">
+            </form>
+            {% if user.image_url is not None %}
+            <img src={{user.image_url}} alt="..." class="display-pic">
+            {% else %}
+            <img src='{% static "Profile/pfp.png" %}' alt="..." class="display-pic">
+            {%endif%}
+            <h1><a href={{user.profile_url}} target="_blank" rel="noopener noreferrer" style="text-decoration: none;" class="display-name">{{user.display_name}}</a></h1>
+            <div class="follow-stats">
+                <div class="f-stats"><span>{{user.playlists}}</span><span style="filter: brightness(75%);">Playlists</span></div>
+                <div class="f-stats"><span>{{user.followers}}</span><span style="filter: brightness(75%);">Followers</span></div>
+                <div class="f-stats"><span>{{user.followed_artists}}</span><span style="filter: brightness(75%);">Following</span></div>
+            </div>
+        </div>
+        <div class="genre-graph">
+            <h2 style="text-align: center; margin-bottom: 1vh;">Top Genres</h2>
+            <canvas id="GenreChart"></canvas>
+        </div>
+    </div>
+
+    <div class="top">
+
+        <div class="rankings">
+            <h3 class="title">Top Tracks<a href="/top-tracks" class="see-more">SEE MORE</a></h3>
+            <div>
+                {%for item in top_tracks%}
+                <div class="track">
+                    <a href={{item.url}} target="_blank" rel="noopener noreferrer" class="link"><img src={{item.art_url}} alt="" ></a>
+                    <span style="margin: 0 2vw">
+                        <div style="display: flex; flex-direction: column;">
+                            <a href={{item.url}} target="_blank" rel="noopener noreferrer" class="link"><span>{{item.track}}</span></a>
+                            <span style="font-size: small; margin: 1vh 0; filter: brightness(75%);">{{item.artist}} · {{item.album}}</span>
+                        </div>
+                    </span>
+                    <span style="margin-right: 0; margin-left: auto;">{{item.duration}}</span>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    
+        <div class="rankings">
+            <h3 class="title">Top Artists<a href="/top-artists" class="see-more">SEE MORE</a></h3>
+            <div class="">
+                {%for item in top_artists%}
+                <div class="artist" style="margin: 4vh 0;">
+                    <a href={{item.url}} target="_blank" rel="noopener noreferrer" class="link"><img src={{item.image_url}} alt="" style="border-radius: 50%; height: 64px; width: 64px;"></a>
+                    <a href={{item.url}} target="_blank" rel="noopener noreferrer" class="link"><span style="margin-left: 3vw;">{{item.name}}</span></a>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    const endpoint = '/api/top-genres/'
+    labels = []
+    values = []
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: (data) => {
+            labels = Object.keys(data);
+            values = Object.values(data);
+            var ctx = document.getElementById('GenreChart').getContext('2d');
+            var genreChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Top Genres",
+                        data: values,
+                        backgroundColor: ['#ccd5ae','#fefae0','#d4a373','#bee1e6','#ffb5a7','#deaaff','#cddafd','#e9ff70','#ff686b','#5aa9e6'],
+                    }]
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: false,
+                        datalabels: {
+                            display: true,
+                            offset: 20,
+                            padding: 3,
+                            formatter: (val, ctx) => {
+                                return ctx.chart.data.labels[ctx.dataIndex];
+                            },
+                            borderRadius: 3,
+                            color: '#191414',
+                            font: {
+                                weight: 'bold',
+                                size: 14,
+                            }
+                        }
+                    }
+                }
+            })
+        },
+        error: (error) => {
+            console.log("ERROR:")
+            console.log(error)
+        }
+    })
+</script>
+{%endblock%}
+</html>

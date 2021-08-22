@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Profile | Log In</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+        body{
+            font-family: 'Montserrat', sans-serif;
+            background-color: #191414;
+            color: white;
+        }
+
+        .login h1 {
+            font-weight: 700;
+        }
+
+        .login-button {
+            background-color: #1db954;
+            color: white;
+            text-decoration: none;
+            padding: 1em 1.5em;
+            border-radius: 25px;
+            text-transform: capitalize;
+            font-weight: 600;
+            transition-duration: 0.8s;
+        }
+        .login-button:hover {
+            filter: brightness(120%);
+        }
+
+        .login {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h1>Spotify Profile</h1>
+        <!-- <a class="login-button" href={{auth_url}}>Log In With Spotify</a> -->
+        <a class="login-button" href={{auth_url}}>LOG IN WITH SPOTIFY</a>
+    </div>
+</body>
+</html>

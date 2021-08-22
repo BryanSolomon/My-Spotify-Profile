@@ -1,0 +1,71 @@
+{% extends 'nav-menu.html' %}
+{% load static %}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Profile | Recently Played</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #191414;
+            color: white;
+        }
+
+        .link {
+            transition-duration: .4s;
+        }
+
+        .link:hover {
+            filter: brightness(125%);
+        }
+
+        .track {
+            display: flex;
+            /* justify-content: space-between; */
+            margin: 6vh;
+            align-items: center;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .track {
+                margin: 4vh 2vw;
+            }
+            .title {
+                margin-top: 2vh;
+            }
+        }
+
+        @media only screen and (min-width: 500px) and (max-width: 800px) {
+            .title {
+                margin-top: 2vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1 class="title" style="text-align: center; font-weight: 900;">Recently Played Tracks</h1>
+
+    <div class="Tracks">
+        {%for item in recently_played%}
+        <div class="track">
+            <a href={{item.url}} target="_blank" rel="noopener noreferrer" class="link"><img src={{item.album_art}} alt="" ></a>
+            <span style="margin: 0 2vw">
+                <div style="display: flex; flex-direction: column;">
+                    <a href={{item.url}} target="_blank" rel="noopener noreferrer" class="link"><span>{{item.track}}</span></a>
+                    <span style="margin: 1vh 0; filter: brightness(75%); font-size: small;">{{item.artists}} · {{item.album}}</span>
+                </div>
+            </span>
+            <span style="margin-right: 0; margin-left: auto; filter: brightness(75%);">{{item.duration}}</span>
+        </div>
+        {%endfor%}
+    </div>
+</body>
+{%endblock%}
+</html>
