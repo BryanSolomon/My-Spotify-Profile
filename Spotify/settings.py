@@ -30,7 +30,7 @@ SECRET_KEY = env('SECRET_KEY')
 #Spotify API keys and redirect URI
 CLIENT_ID = env('CLIENT_ID')
 CLIENT_SECRET = env('CLIENT_SECRET')
-REDIRECT_URI = "http://127.0.0.1:8000/"
+REDIRECT_URI = "https://personal-spotify-profile.herokuapp.com/"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
