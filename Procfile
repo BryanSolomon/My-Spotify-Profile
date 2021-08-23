@@ -1,1 +1,1 @@
-web: gunicorn myspotifyprofile.wsgi
+web: gunicorn My-Spotify-Profile.wsgi
